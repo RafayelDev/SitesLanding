@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>palmer — Therapeutic Bodywork</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,600&display=swap">
+<style>
+:root{
+  --bg:#FFFFFF;--ink:#4A1E0B;--ph:#E4D6CA;--ph2:#D3BBA8;--err:#A63A3A;
+  --serif:"Fraunces",Georgia,"Times New Roman",serif;
+  --sans:"Helvetica Neue",Helvetica,Arial,system-ui,sans-serif;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){--bg:#1C1410;--ink:#EBD7C8;--ph:#2E231D;--ph2:#3B2D25;--err:#F08A8A;color-scheme:dark}
+}
+:root[data-theme="dark"]{--bg:#1C1410;--ink:#EBD7C8;--ph:#2E231D;--ph2:#3B2D25;--err:#F08A8A;color-scheme:dark}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 70px);scroll-behavior:smooth}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 .85rem/1.4 var(--sans)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:10}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.wrap{max-width:1000px;margin:0 auto;padding:0 24px}
+h1,h2,h3{font-family:var(--serif);font-weight:400;margin:0;line-height:1.05}
+p{margin:0}
+
+/* header */
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:11;background:var(--bg)}
+.bar{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:56px;gap:16px}
+.bar nav{display:flex;gap:14px;font:400 .85rem var(--serif)}
+.bar nav a{text-decoration:none}
+.bar nav a:hover{text-decoration:underline}
+.brand{font:400 1.05rem var(--sans);letter-spacing:.01em;text-decoration:none}
+.bar .btn{justify-self:end}
+.btn{display:inline-block;background:transparent;color:var(--ink);border:1px solid var(--ink);border-radius:0;padding:5px 14px;font:400 .8rem var(--serif);text-decoration:none;cursor:pointer;white-space:nowrap}
+.btn:hover{background:var(--ink);color:var(--bg)}
+
+/* placeholders / images */
+.ph{background:var(--ph);display:grid;place-items:center;color:var(--ink);font-size:.7rem;opacity:.95;overflow:hidden;text-align:center}
+.ph:nth-of-type(even){background:var(--ph2)}
+.ph img{width:100%;height:100%;object-fit:cover;display:block}
+.ph.big{aspect-ratio:11/15}
+.ph.sm{width:137px;aspect-ratio:137/163;flex:none}
+
+/* intro */
+.intro{padding:12px 0 36px}
+.intro h1{font-size:1.75rem;margin-bottom:8px}
+.intro p{max-width:26ch}
+
+/* treatments */
+.tx{display:grid;grid-template-columns:1fr 42%;margin-bottom:44px}
+.tx.rev{grid-template-columns:42% 1fr}
+.tx.rev .big{order:-1;margin-left:-29px}
+.tx-text{display:flex;flex-direction:column;justify-content:space-between;gap:48px;padding:14px 24px 0 0}
+.tx.rev .tx-text{padding:14px 0 0 56px}
+.num{display:block;font-size:.75rem;margin-bottom:22px}
+.tx h2{font-size:clamp(2rem,4.4vw,2.75rem)}
+.detail{display:flex;align-items:flex-end;gap:14px}
+.detail>div:last-child{max-width:200px}
+.meta{font:italic 600 .9rem var(--serif);margin-bottom:2px}
+.detail .btn{margin-top:12px}
+
+/* gallery */
+.gallery{display:grid;grid-template-columns:1fr 1fr;margin:0 0 56px}
+.gallery .ph{aspect-ratio:17/20}
+
+/* therapist */
+.about h2{font-size:1.4rem;margin-bottom:8px}
+.about .sub{max-width:30ch;margin-bottom:28px}
+.meet{display:grid;grid-template-columns:42% 1fr}
+.portrait{aspect-ratio:396/426}
+.meet-r{display:flex;flex-direction:column;justify-content:space-between;align-items:flex-end}
+.bio{width:69%}
+.bio .lead{font:400 .85rem/1.45 var(--serif);max-width:280px;margin-bottom:14px}
+.bio-row{display:flex;justify-content:space-between;align-items:flex-end;gap:12px}
+.bio ul{margin:0;padding-left:16px}
+
+/* contact */
+.contact{padding:72px 0 56px}
+.contact .wrap{display:grid;grid-template-columns:1fr 1.2fr;gap:48px;align-items:start}
+.contact h2{font-size:1.75rem;margin-bottom:8px}
+form{display:grid;gap:16px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+label{display:block;margin-bottom:4px}
+input,select,textarea{width:100%;background:transparent;color:var(--ink);border:1px solid var(--ink);border-radius:0;padding:9px 10px;font:400 .9rem var(--sans)}
+select option{color:#222}
+textarea{min-height:80px;resize:vertical}
+.err{color:var(--err);font-size:.8rem;margin-top:4px}
+input[aria-invalid="true"],select[aria-invalid="true"]{border-color:var(--err)}
+form .btn{justify-self:start;padding:9px 20px;font-size:.9rem}
+#status{font-weight:500}
+footer{padding:28px 0 36px;border-top:1px solid var(--ink);font-size:.8rem}
+
+@media (max-width:820px){
+  .tx,.tx.rev{grid-template-columns:1fr;margin-bottom:56px}
+  .tx.rev .big{order:0;margin-left:0}
+  .tx-text,.tx.rev .tx-text{padding:0 0 20px}
+  .tx-text{gap:28px}
+  .meet{grid-template-columns:1fr;gap:20px}
+  .meet-r{align-items:flex-start;gap:20px}
+  .bio{width:100%}
+  .contact .wrap{grid-template-columns:1fr;gap:28px}
+  .btn{padding:9px 16px}
+}
+@media (max-width:640px){
+  html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 100px)}
+  .bar{grid-template-columns:1fr auto;grid-template-areas:"brand btn" "nav nav";height:auto;padding:10px 0;row-gap:8px}
+  .brand{grid-area:brand}.bar .btn{grid-area:btn}.bar nav{grid-area:nav}
+  .row{grid-template-columns:1fr}
+  .gallery .ph{aspect-ratio:3/4}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap bar">
+    <nav aria-label="Main">
+      <a href="#about">About</a>
+      <a href="#treatments">Treatments</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a class="brand" href="#top" id="brandName">palmer</a>
+    <a class="btn" href="#contact">Book a Session</a>
+  </div>
+</header>
+
+<main id="top">
+  <section class="intro" id="treatments">
+    <div class="wrap">
+      <h1>Therapeutic Bodywork</h1>
+      <p>Every session is customized to address your specific needs and goals</p>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <article class="tx">
+      <div class="tx-text">
+        <div><span class="num">01</span><h2>Swedish Relaxation</h2></div>
+        <div class="detail">
+          <div class="ph sm" data-img="swedish-small">swedish-small</div>
+          <div>
+            <p class="meta">60 min, $95</p>
+            <p>Classic full-body massage using flowing strokes to ease tension and promote deep calm</p>
+            <a class="btn" href="#contact" data-service="Swedish Relaxation">Book a Session</a>
+          </div>
+        </div>
+      </div>
+      <div class="ph big" data-img="swedish-main">swedish-main</div>
+    </article>
+
+    <article class="tx rev">
+      <div class="tx-text">
+        <div><span class="num">02</span><h2>Deep Tissue Therapy</h2></div>
+        <div class="detail">
+          <div class="ph sm" data-img="deep-small">deep-small</div>
+          <div>
+            <p class="meta">__ min, $__</p>
+            <p>Firm pressure targeting deeper layers to release chronic knots and restore mobility</p>
+            <a class="btn" href="#contact" data-service="Deep Tissue Therapy">Book a Session</a>
+          </div>
+        </div>
+      </div>
+      <div class="ph big" data-img="deep-main">deep-main</div>
+    </article>
+
+    <article class="tx">
+      <div class="tx-text">
+        <div><span class="num">03</span><h2>Hot Stone Massage</h2></div>
+        <div class="detail">
+          <div class="ph sm" data-img="stone-small">stone-small</div>
+          <div>
+            <p class="meta">75 min, $125</p>
+            <p>Heated basalt stones melt away tension while promoting circulation and deep relaxation</p>
+            <a class="btn" href="#contact" data-service="Hot Stone Massage">Book a Session</a>
+          </div>
+        </div>
+      </div>
+      <div class="ph big" data-img="stone-main">stone-main</div>
+    </article>
+
+    <div class="gallery">
+      <div class="ph" data-img="gallery-1">gallery-1</div>
+      <div class="ph" data-img="gallery-2">gallery-2</div>
+    </div>
+
+    <section class="about" id="about">
+      <h2>Meet Your Therapist</h2>
+      <p class="sub">This is the space to introduce your business and what it has to offer. Define the qualities and values that make it unique.</p>
+      <div class="meet">
+        <div class="ph portrait" data-img="therapist">therapist</div>
+        <div class="meet-r">
+          <div class="ph sm" data-img="therapist-small">therapist-small</div>
+          <div class="bio">
+            <p class="lead">With over 8 years of hands-on experience, I combine technical skill with intuitive bodywork to help clients find relief, restoration, and balance.</p>
+            <div class="bio-row">
+              <ul>
+                <li>Licensed Therapist</li>
+                <li>500+ hours training</li>
+                <li>Prenatal Certified</li>
+                <li>AMRZ Member</li>
+              </ul>
+              <a class="btn" href="#contact">Book a Session</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <section class="contact" id="contact">
+    <div class="wrap">
+      <div>
+        <h2>Book a Session</h2>
+        <p>Send a request and we will confirm a time that works for you.</p>
+      </div>
+      <form id="bookingForm" novalidate>
+        <div class="row">
+          <div><label for="name">Name</label><input id="name" name="name" autocomplete="name"><p class="err" data-for="name"></p></div>
+          <div><label for="phone">Phone</label><input id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel"><p class="err" data-for="phone"></p></div>
+        </div>
+        <div>
+          <label for="service">Treatment</label>
+          <select id="service" name="service">
+            <option value="">Select a treatment</option>
+            <option>Swedish Relaxation</option>
+            <option>Deep Tissue Therapy</option>
+            <option>Hot Stone Massage</option>
+          </select>
+          <p class="err" data-for="service"></p>
+        </div>
+        <div class="row">
+          <div><label for="date">Date</label><input id="date" name="date" type="date"><p class="err" data-for="date"></p></div>
+          <div><label for="time">Time</label><input id="time" name="time" type="time"><p class="err" data-for="time"></p></div>
+        </div>
+        <div><label for="comment">Message (optional)</label><textarea id="comment" name="comment"></textarea></div>
+        <button class="btn" type="submit">Send request</button>
+        <p id="status" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">© <span id="year"></span> <span id="footBrand">palmer</span></div>
+</footer>
+
+<script>
+/* SETTINGS: brand name, email for booking requests, and photo URLs/paths.
+   Photo keys match the labels shown on the placeholders. */
+var BRAND = "palmer";
+var CONTACT_EMAIL = "";
+var IMAGES = {
+  "swedish-main": "", "swedish-small": "",
+  "deep-main": "", "deep-small": "",
+  "stone-main": "", "stone-small": "",
+  "gallery-1": "", "gallery-2": "",
+  "therapist": "", "therapist-small": ""
+};
+
+(function () {
+  document.getElementById("brandName").textContent = BRAND;
+  document.getElementById("footBrand").textContent = BRAND;
+  document.title = BRAND + " — Therapeutic Bodywork";
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  document.querySelectorAll("[data-img]").forEach(function (el) {
+    var src = IMAGES[el.dataset.img];
+    if (!src) return;
+    el.textContent = "";
+    var img = new Image();
+    img.src = src;
+    img.alt = "";
+    el.appendChild(img);
+  });
+
+  var form = document.getElementById("bookingForm");
+  var status = document.getElementById("status");
+  var dateInput = document.getElementById("date");
+  var t = new Date();
+  var today = t.getFullYear() + "-" + String(t.getMonth() + 1).padStart(2, "0") + "-" + String(t.getDate()).padStart(2, "0");
+  dateInput.min = today;
+
+  document.querySelectorAll("[data-service]").forEach(function (a) {
+    a.addEventListener("click", function () { form.elements.service.value = a.dataset.service; });
+  });
+
+  function setErr(id, msg) {
+    var el = form.querySelector('[data-for="' + id + '"]');
+    var field = document.getElementById(id);
+    el.textContent = msg || "";
+    if (msg) field.setAttribute("aria-invalid", "true"); else field.removeAttribute("aria-invalid");
+    return !msg;
+  }
+
+  function validate() {
+    var f = form.elements, ok = true, first = null;
+    function check(id, msg) { var good = setErr(id, msg); if (!good && !first) first = f[id]; ok = ok && good; }
+    check("name", f.name.value.trim().length < 2 ? "Enter your name" : "");
+    var digits = f.phone.value.replace(/\D/g, "");
+    check("phone", digits.length < 10 || digits.length > 15 ? "Enter a phone number with 10 to 15 digits" : "");
+    check("service", f.service.value ? "" : "Select a treatment");
+    check("date", !f.date.value ? "Select a date" : (f.date.value < today ? "The date cannot be in the past" : ""));
+    check("time", f.time.value ? "" : "Select a time");
+    if (first) first.focus();
+    return ok;
+  }
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    status.textContent = "";
+    if (!validate()) return;
+    if (!CONTACT_EMAIL) {
+      status.textContent = "Requests are not enabled yet: the site owner has not set an email address.";
+      return;
+    }
+    var f = form.elements;
+    var body = [
+      "Name: " + f.name.value.trim(),
+      "Phone: " + f.phone.value.trim(),
+      "Treatment: " + f.service.value,
+      "Date: " + f.date.value,
+      "Time: " + f.time.value,
+      f.comment.value.trim() ? "Message: " + f.comment.value.trim() : ""
+    ].filter(Boolean).join("\n");
+    window.location.href = "mailto:" + encodeURIComponent(CONTACT_EMAIL).replace("%40", "@") +
+      "?subject=" + encodeURIComponent("Session request") + "&body=" + encodeURIComponent(body);
+    status.textContent = "Opening your email app. Press Send in the email to finish the request.";
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Slow Matter – 3D for the web</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700&display=swap" rel="stylesheet">
+<style>
+:root{--bg0:#c9d3ea;--bg1:#101a4a;--ink0:#0f1326;--ink1:#eef1ff;--ink:var(--ink0);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg0:#1a2250;--bg1:#070a1c;--ink0:#eef1ff;--ink1:#eef1ff}}
+:root[data-theme="dark"]{--bg0:#1a2250;--bg1:#070a1c;--ink0:#eef1ff;--ink1:#eef1ff}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+*{box-sizing:border-box;margin:0}
+body{font:400 clamp(1rem,1.2vw,1.125rem)/1.5 "Bricolage Grotesque","Helvetica Neue",Arial,sans-serif;color:var(--ink);background:var(--bg,var(--bg0))}
+a{color:inherit}
+a:focus-visible{outline:2px solid currentColor;outline-offset:4px}
+#gl{position:fixed;inset:0;width:100%;height:100%;display:block;z-index:0}
+header{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:5;display:flex;justify-content:space-between;align-items:center;padding:1.1rem clamp(1rem,4vw,3rem);font-weight:700}
+header nav{display:flex;gap:clamp(1rem,3vw,2rem)}
+header a{text-decoration:none;padding:.4rem 0}
+header a:hover{text-decoration:underline;text-underline-offset:.3em}
+main{position:relative;z-index:1}
+section{min-height:100vh;min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;padding:6rem clamp(1rem,4vw,3rem) 4rem;pointer-events:none}
+section a{pointer-events:auto}
+h1,h2{font-weight:700;letter-spacing:-.035em;line-height:.95}
+h1{font-size:clamp(2.4rem,7.5vw,7rem)}
+h2{font-size:clamp(2rem,6vw,5.5rem);max-width:11ch}
+p{max-width:34ch;margin-top:1.5rem}
+.ln{display:block;overflow:hidden;padding-bottom:.08em}
+.ln>span{display:block;transform:translateY(105%);animation:up 1.1s cubic-bezier(.2,.8,.2,1) forwards}
+.ln:nth-child(2)>span{animation-delay:.12s}
+.ln:nth-child(3)>span{animation-delay:.24s}
+@keyframes up{to{transform:none}}
+@media (prefers-reduced-motion:reduce){.ln>span{transform:none;animation:none}}
+.mail{display:inline-block;margin-top:1.5rem;font-size:clamp(1.2rem,3.2vw,2.6rem);font-weight:700;letter-spacing:-.02em;text-decoration-thickness:3px;text-underline-offset:.2em}
+.fine{margin-top:3rem;font-size:.85rem}
+#nogl{display:none;pointer-events:auto;margin-bottom:2rem;padding:1rem;border:2px solid currentColor;max-width:40ch}
+.nogl #nogl{display:block}
+</style>
+</head>
+<body>
+<canvas id="gl" aria-hidden="true"></canvas>
+<header>
+  <a href="#top">Slow Matter</a>
+  <nav aria-label="Sections"><a href="#method">Method</a><a href="#craft">Craft</a><a href="#contact">Contact</a></nav>
+</header>
+<main>
+  <section id="top">
+    <p id="nogl" role="status">The 3D scene needs WebGL, which this browser has turned off or doesn’t support. Everything else on the page still works.</p>
+    <h1><span class="ln"><span>We make objects</span></span><span class="ln"><span>you can almost</span></span><span class="ln"><span>touch.</span></span></h1>
+    <p>Slow Matter is a small studio making 3D for the web. Move your cursor through the pieces; they push back.</p>
+  </section>
+  <section id="method">
+    <h2>Scroll, and it finds its order.</h2>
+    <p>Every piece starts loose. We tune how it falls apart, how it answers your hand, and how long it takes to settle into a shape.</p>
+  </section>
+  <section id="craft">
+    <h2>Rendered live, never recorded.</h2>
+    <p>No video and no baked frames. Hundreds of pebbles are lit and moved in real time, in a single draw call, so the scene can respond to whoever is looking at it.</p>
+  </section>
+  <section id="contact">
+    <h2>Bring us something to hold.</h2>
+    <a class="mail" href="mailto:hello@slowmatter.example">hello@slowmatter.example</a>
+    <p class="fine">© 2026 Slow Matter, a fictional studio. <a href="#top">Back to the start</a></p>
+  </section>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+var root=document.documentElement,RM=matchMedia("(prefers-reduced-motion: reduce)"),rd=null;
+try{rd=new THREE.WebGLRenderer({canvas:document.getElementById("gl"),antialias:true,alpha:true})}catch(e){}
+if(!rd){root.classList.add("nogl");return}
+rd.setPixelRatio(Math.min(devicePixelRatio||1,1.75));
+var sc=new THREE.Scene(),cam=new THREE.PerspectiveCamera(35,1,.1,60);
+sc.fog=new THREE.Fog(0xffffff,10,32);
+function C(){return new THREE.Color()}
+var bg0=C(),bg1=C(),i0=C(),i1=C(),bg=C(),ink=C();
+function pal(){var s=getComputedStyle(root);function g(n){return s.getPropertyValue(n).trim()}bg0.set(g("--bg0"));bg1.set(g("--bg1"));i0.set(g("--ink0"));i1.set(g("--ink1"))}
+pal();matchMedia("(prefers-color-scheme: dark)").addEventListener("change",pal);
+sc.add(new THREE.HemisphereLight(0xffffff,0x6b7bb8,.9));
+var key=new THREE.DirectionalLight(0xfff1d6,1.6);key.position.set(5,8,6);sc.add(key);
+var rim=new THREE.PointLight(0x5a7bff,2,30);rim.position.set(-6,-2,-4);sc.add(rim);
+
+var N=innerWidth<700?320:640,A=new Float32Array(N*3),B=new Float32Array(N*3),G=new Float32Array(N*3),P=new Float32Array(N*3),D=new Float32Array(N),S=new Float32Array(N),Q=new Float32Array(N);
+var mesh=new THREE.InstancedMesh(new THREE.SphereGeometry(.3,24,16),new THREE.MeshPhysicalMaterial({roughness:.45,clearcoat:.7,clearcoatRoughness:.25}),N);
+mesh.frustumCulled=false;sc.add(mesh);
+var pc=[0xf2eee4,0x2438ff,0xffb62e],col=new THREE.Color(),T=.9,ga=Math.PI*(3-Math.sqrt(5)),r=Math.random;
+for(var i=0;i<N;i++){
+  var j=i*3;
+  A[j]=(r()-.5)*17;A[j+1]=(r()-.5)*9;A[j+2]=(r()-.5)*9;
+  var th=r()*6.2832,ph=r()*6.2832,rr=4.3+Math.cos(ph)*.9,y0=Math.sin(ph)*.9,z0=Math.sin(th)*rr;
+  B[j]=Math.cos(th)*rr;B[j+1]=y0*Math.cos(T)-z0*Math.sin(T);B[j+2]=y0*Math.sin(T)+z0*Math.cos(T);
+  var yy=1-2*(i+.5)/N,rad0=Math.sqrt(1-yy*yy),sr=2.5*(.8+.2*r());
+  G[j]=Math.cos(ga*i)*rad0*sr;G[j+1]=yy*sr;G[j+2]=Math.sin(ga*i)*rad0*sr;
+  P[j]=A[j];P[j+1]=A[j+1];P[j+2]=A[j+2];
+  D[i]=r();S[i]=.55+r()*.9;Q[i]=r()*6.28;
+  var q=r();col.set(q<.1?pc[1]:q<.19?pc[2]:pc[0]);mesh.setColorAt(i,col);
+}
+mesh.instanceColor.needsUpdate=true;
+
+var p=0,ps=0,mx=9,my=9,k0=1;
+function sy(){var m=root.scrollHeight-innerHeight;p=m>0?scrollY/m:0}
+function rs(){
+  var w=innerWidth,h=innerHeight,wide=w/h>1.15;
+  rd.setSize(w,h,false);cam.aspect=w/h;cam.fov=wide?35:48;k0=wide?1:.6;
+  if(wide)cam.setViewOffset(w,h,-w*.17,0,w,h);else cam.setViewOffset(w,h,0,h*.14,w,h);
+  sy();
+}
+addEventListener("resize",rs);addEventListener("scroll",sy,{passive:true});
+addEventListener("pointermove",function(e){mx=e.clientX/innerWidth*2-1;my=1-e.clientY/innerHeight*2});
+addEventListener("pointerup",function(e){if(e.pointerType!=="mouse")mx=my=9});
+root.addEventListener("mouseleave",function(){mx=my=9});
+
+var ray=new THREE.Raycaster(),pl=new THREE.Plane(),m3=new THREE.Vector3(),dr=new THREE.Vector3(),cp=new THREE.Vector3(),V=new THREE.Vector2(),o=new THREE.Object3D();
+function cl(x){return x<0?0:x>1?1:x}
+function sm(t){return t*t*(3-2*t)}
+function fr(t){
+  requestAnimationFrame(fr);
+  var tm=t/1000,rm=RM.matches,kk=rm?1:.12;
+  ps+=(p-ps)*(rm?1:.07);
+  var a=ps*1.1-.25;
+  cam.position.set(Math.sin(a)*14,1.4+ps*2.4,Math.cos(a)*14);cam.lookAt(0,0,0);cam.updateMatrixWorld();
+  var e=sm(cl((ps-.78)/.18));
+  bg.copy(bg0).lerp(bg1,e);ink.copy(i0).lerp(i1,e);sc.fog.color.copy(bg);
+  root.style.setProperty("--bg",bg.getStyle());root.style.setProperty("--ink",ink.getStyle());
+  var hit=false;
+  if(mx<2){cam.getWorldDirection(dr);pl.setFromNormalAndCoplanarPoint(dr,cp.set(0,0,0));V.set(mx,my);ray.setFromCamera(V,cam);hit=!!ray.ray.intersectPlane(pl,m3)}
+  var s=ps*2,s1=cl(s),s2=cl(s-1),rad=2.4*k0;
+  for(var i=0;i<N;i++){
+    var j=i*3,d=D[i]*.35,t1=sm(cl(s1*1.35-d)),t2=sm(cl(s2*1.35-d));
+    var x=A[j]+(B[j]-A[j])*t1,y=A[j+1]+(B[j+1]-A[j+1])*t1,z=A[j+2]+(B[j+2]-A[j+2])*t1;
+    x+=(G[j]-x)*t2;y+=(G[j+1]-y)*t2;z+=(G[j+2]-z)*t2;
+    x*=k0;y*=k0;z*=k0;
+    if(!rm)y+=Math.sin(tm*.5+Q[i])*.2*(1-t1)*k0;
+    if(hit){
+      var dx=x-m3.x,dy=y-m3.y,dz=z-m3.z,dd=Math.sqrt(dx*dx+dy*dy+dz*dz)+1e-4;
+      if(dd<rad){var f=1-dd/rad;f=f*f*2.2*k0/dd;x+=dx*f;y+=dy*f;z+=dz*f}
+    }
+    P[j]+=(x-P[j])*kk;P[j+1]+=(y-P[j+1])*kk;P[j+2]+=(z-P[j+2])*kk;
+    o.position.set(P[j],P[j+1],P[j+2]);
+    o.rotation.set(Q[i]+(rm?0:tm*.25*S[i]),Q[i]*2+(rm?0:tm*.15),0);
+    o.scale.set(S[i]*k0,S[i]*.75*k0,S[i]*1.1*k0);
+    o.updateMatrix();mesh.setMatrixAt(i,o.matrix);
+  }
+  mesh.instanceMatrix.needsUpdate=true;
+  rd.render(sc,cam);
+}
+rs();ps=p;requestAnimationFrame(fr);
+})();
+</script>
+</body>
+</html>
